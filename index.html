@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hasbihal</title>
+<meta name="description" content="Hasbihal: mahallenin sohbeti. Bir şey yaz, birileri mutlaka cevap verir.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231D4F9F'/%3E%3Cpath d='M8 9h16v10H15l-5 4v-4H8z' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+
+<div id="boot" class="boot"><span class="mark"></span>Hasbihal</div>
+
+<!-- Giriş / kayıt -->
+<div id="auth" hidden>
+  <div class="auth-grid">
+    <section class="auth-art">
+      <div class="brand"><span class="mark"></span>Hasbihal</div>
+      <div class="art-copy">
+        <h1>Çay demlendi.<br><span class="hl">Söz sende.</span></h1>
+        <p>Mahallenin sohbeti, artık her yerde. Bir şey yaz, birileri mutlaka cevap verir.</p>
+      </div>
+      <p class="art-foot">hasbihal (isim): dostça, içten sohbet</p>
+    </section>
+
+    <main class="auth-main">
+      <div class="auth-box">
+        <div class="tabs" role="tablist" aria-label="Giriş veya kayıt">
+          <button type="button" role="tab" id="tab-login" aria-selected="true">Giriş yap</button>
+          <button type="button" role="tab" id="tab-register" aria-selected="false">Kayıt ol</button>
+        </div>
+        <h2 id="auth-title">Tekrar hoş geldin</h2>
+        <p class="sub" id="auth-sub">Hesabınla giriş yap, sohbete kaldığın yerden devam et.</p>
+
+        <div id="google-wrap" hidden>
+          <div id="google-btn"></div>
+          <div class="or"><span>veya e-postayla</span></div>
+        </div>
+
+        <form id="auth-form" novalidate>
+          <div class="hp" aria-hidden="true">
+            <label>Web sitesi <input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="field" data-for="register">
+            <label for="f-name">Ad Soyad <small>(isteğe bağlı)</small></label>
+            <input id="f-name" type="text" maxlength="40" autocomplete="name">
+          </div>
+          <div class="field" data-for="register">
+            <label for="f-username">Kullanıcı adı</label>
+            <input id="f-username" type="text" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false">
+          </div>
+          <div class="field" data-for="register">
+            <label for="f-email">E-posta</label>
+            <input id="f-email" type="email" maxlength="120" autocomplete="email">
+          </div>
+          <div class="field" data-for="login">
+            <label for="f-identifier">Kullanıcı adı veya e-posta</label>
+            <input id="f-identifier" type="text" maxlength="120" autocomplete="username" autocapitalize="none" spellcheck="false">
+          </div>
+          <div class="field">
+            <label for="f-password">Şifre</label>
+            <div class="pw">
+              <input id="f-password" type="password" maxlength="72" autocomplete="current-password">
+              <button type="button" id="pw-toggle" aria-label="Şifreyi göster">Göster</button>
+            </div>
+            <small class="hint" data-for="register">En az 8 karakter olsun.</small>
+          </div>
+
+          <div id="turnstile"></div>
+          <p id="auth-error" class="error" role="alert" aria-live="polite"></p>
+          <button class="btn primary wide" id="auth-submit" type="submit">Giriş yap</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Uygulama -->
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand small"><span class="mark"></span>Hasbihal</div>
+      <input id="search" type="search" placeholder="Ara…" aria-label="Gönderilerde ara" autocomplete="off">
+      <div class="me">
+        <span id="me-name" class="me-name"></span>
+        <button class="btn ghost" id="logout" type="button">Çıkış</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="layout">
+      <main class="col">
+        <section class="card compose" aria-label="Yeni gönderi">
+          <div id="me-avatar"></div>
+          <div class="compose-body">
+            <textarea id="draft" rows="3" maxlength="400" placeholder="Aklında ne var? #etiket ekleyebilirsin" aria-label="Yeni gönderi"></textarea>
+            <p id="post-error" class="error" role="alert"></p>
+            <div class="compose-foot">
+              <span class="count" id="count">0 / 280</span>
+              <button class="btn primary" id="send" type="button" disabled>Paylaş</button>
+            </div>
+          </div>
+        </section>
+
+        <div id="filterbar"></div>
+        <button class="newposts" id="newbtn" type="button" hidden></button>
+        <div class="col" id="feed" aria-live="polite"></div>
+        <button class="btn ghost more" id="more" type="button" hidden>Daha fazla göster</button>
+      </main>
+
+      <aside class="col">
+        <section class="card">
+          <h2 class="side-title">Bu haftanın gündemi</h2>
+          <div class="trend" id="trend"></div>
+        </section>
+      </aside>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
